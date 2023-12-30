@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css'/>
+	</head>
+	<body>
+		{% block body %}
+			<div class="container">
+				<form action="/voitures/create" method="POST" class="form">
+					<label for="matricule">Add a Vehicle</label>
+					<hr class="hr-styled">
+					<input type="number" id="matricule" name="matricule" placeholder="Matricule" required>
+					<input type="text" id="marque" name="marque" placeholder="Marque" required>
+					<input type="text" id="modele" name="modele" placeholder="Modele" required>
+					<input type="submit" value="Save" class="purple-button">
+				</form>
+
+				<h2>Form list</h2>
+				<hr>
+				<button onclick="list()" class="purple-button">Vehicule list</button>
+				<hr>
+				<form action="/voitures/recherche" method="POST" class="form">
+					<label for="matriculeSearch">Search a Vehicle</label>
+					<hr class="hr-styled">
+					<input type="number" id="matriculeSearch" name="matricule" placeholder="Matricule">
+					<input type="submit" value="Search" class="purple-button">
+				</form>
+
+				<hr class="hr-styled">
+
+				{% if RechVoiture is defined %}
+					{% if RechVoiture == "notFound" %}
+						<p>
+							<b>Vehicle not found</b>
+						</p>
+					{% else %}
+						<p>
+							<b>Matricule:
+							</b>
+							{{ RechVoiture.matricule }}</p>
+						<p>
+							<b>Marque:
+							</b>
+							{{ RechVoiture.marque }}</p>
+						<p>
+							<b>Modele:
+							</b>
+							{{ RechVoiture.modele }}</p>
+					{% endif %}
+				{% else %}
+					{% for voiture in Voitures %}
+						<p>
+							<b>Matricule:
+							</b>
+							{{ voiture.matricule }}</p>
+						<p>
+							<b>Marque:
+							</b>
+							{{ voiture.marque }}</p>
+						<p>
+							<b>Modele:
+							</b>
+							{{ voiture.modele }}</p>
+						<a href="/voitures/update/{{ voiture.id }}">Update</a>
+						<a href="/voitures/delete/{{ voiture.id }}">Delete</a>
+						<hr>
+					{% endfor %}
+				{% endif %}
+			</div>
+			<script>
+				async function list() {
+window.location.href = '/voitures';
+}
+			</script>
+		{% endblock %}
+	</body>
+</html>
+
